@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hub Msgs Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>Hub Msgs Dashboard</h1>
+      <p class="sub">Integração de mensagens · Sites / Hub Comms · só dados reais importados</p>
+    </div>
+    <div class="meta" id="metaBar">
+      <span class="pill muted" id="sourcePill">Sem dados</span>
+      <span class="pill" id="updatedPill">—</span>
+    </div>
+  </header>
+
+  <section class="toolbar card">
+    <div class="toolbar-row">
+      <label class="btn primary">
+        Importar JSON/CSV
+        <input type="file" id="fileInput" accept=".json,.csv,application/json,text/csv" hidden />
+      </label>
+      <button type="button" class="btn" id="clearBtn">Limpar dados</button>
+      <button type="button" class="btn" id="schemaBtn">Ver schema</button>
+      <div class="grow"></div>
+      <label class="field">
+        <span>URL Hub Canais (opcional)</span>
+        <input type="url" id="apiUrl" placeholder="https://…/api/dashboard-snapshot" />
+      </label>
+      <button type="button" class="btn" id="fetchBtn">Buscar API</button>
+    </div>
+    <p class="hint">Nenhuma métrica é inventada. Com painel vazio, importe um JSON/CSV do Hub ou configure a URL do Hub Canais.</p>
+  </section>
+
+  <section class="grid stats" id="statsRow">
+    <article class="card stat"><h3>Canais ativos</h3><p class="num" id="statChannels">—</p></article>
+    <article class="card stat"><h3>Exigem ação</h3><p class="num accent" id="statAction">—</p></article>
+    <article class="card stat"><h3>Mensagens no arquivo</h3><p class="num" id="statMsgs">—</p></article>
+    <article class="card stat"><h3>Canais no snapshot</h3><p class="num" id="statChannelCount">—</p></article>
+  </section>
+
+  <section class="grid two">
+    <article class="card">
+      <div class="card-head">
+        <h2>Status dos canais</h2>
+        <a class="link" href="#triagem" id="linkCanais">Atalho Hub Canais</a>
+      </div>
+      <div id="channelsEmpty" class="empty">Sem canais carregados. Importe JSON com a chave <code>channels</code>.</div>
+      <div id="channelsTable" class="table wrap hidden"></div>
+    </article>
+
+    <article class="card">
+      <div class="card-head">
+        <h2>Volume por canal</h2>
+      </div>
+      <div id="volumeEmpty" class="empty">Volume só aparece após importar mensagens (ou campo <code>volume</code> no JSON).</div>
+      <ul id="volumeList" class="volume hidden"></ul>
+    </article>
+  </section>
+
+  <section class="card" id="fila">
+    <div class="card-head">
+      <h2>Fila — o que exige ação</h2>
+      <div class="filters">
+        <button type="button" class="chip active" data-filter="action">Ação</button>
+        <button type="button" class="chip" data-filter="urgent">Urgente</button>
+        <button type="button" class="chip" data-filter="unread">Não lidas</button>
+        <button type="button" class="chip" data-filter="all">Todas</button>
+      </div>
+    </div>
+    <div id="queueEmpty" class="empty">Nada na fila. Importe mensagens com <code>needsAction</code>, prioridade ou status.</div>
+    <div id="queueTable" class="table wrap hidden"></div>
+  </section>
+
+  <section class="card" id="triagem">
+    <div class="card-head"><h2>Atalhos de triagem</h2></div>
+    <div class="shortcuts">
+      <a class="btn" href="#fila" data-jump="urgent">Urgentes</a>
+      <a class="btn" href="#fila" data-jump="unread">Não lidas</a>
+      <a class="btn" href="#fila" data-jump="action">Exigem ação</a>
+      <a class="btn" id="openInbox" href="#" target="_blank" rel="noopener">Abrir Inbox Hub</a>
+      <a class="btn" id="openChannels" href="#" target="_blank" rel="noopener">Abrir Canais Hub</a>
+    </div>
+    <p class="hint">Links do Hub local (padrão <code>http://localhost:3000</code>) — ajuste em Config se o Hub Comms estiver em outra URL.</p>
+    <label class="field inline">
+      <span>Base Hub Comms</span>
+      <input type="url" id="hubBase" placeholder="http://localhost:3000" value="http://localhost:3000" />
+    </label>
+  </section>
+
+  <dialog id="schemaDialog">
+    <form method="dialog" class="schema">
+      <h3>Schema JSON esperado</h3>
+      <pre id="schemaPre"></pre>
+      <button class="btn primary" value="close">Fechar</button>
+    </form>
+  </dialog>
+
+  <footer>
+    <p>Hub Msgs Dashboard · Sites / Hub Comms · dados só via import ou API · hook Hub Canais</p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

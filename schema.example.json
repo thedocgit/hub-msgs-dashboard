@@ -1,0 +1,17 @@
+{
+  "_comment": "EXEMPLO DE SCHEMA — não use como métricas reais. Substitua por export do Hub Canais / Hub Comms.",
+  "generatedAt": "2026-09-20T21:00:00-03:00",
+  "source": "manual",
+  "channels": [
+    {
+      "id": "wa-1",
+      "type": "whatsapp",
+      "label": "WA principal",
+      "slot": 1,
+      "status": "disconnected",
+      "lastSyncAt": null,
+      "lastError": null
+    }
+  ],
+  "messages": []
+}
